@@ -1,0 +1,154 @@
+﻿@using TMDB.Extensions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model TMDB.IResponse<Movie>
+
+<style>
+
+    button {
+        background-color: #8f3985;
+        border: 1px solid #8f3985;
+        color: white;
+        padding: 10px 22px;
+        margin: 2px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+        button:disabled,
+        button[disabled] {
+            border: 1px solid #8f3985;
+            background-color: #e7c4e3;
+            color: white;
+        }
+
+
+
+    body .card_left {
+        width: 40%;
+        height: 330px;
+        float: left;
+        overflow: hidden;
+        background: transparent;
+    }
+
+        body .card_left img {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px 0 0 10px;
+            -webkit-border-radius: 10px 0 0 10px;
+            -moz-border-radius: 10px 0 0 10px;
+            position: relative;
+        }
+
+    body .card_right {
+        width: 60%;
+        float: left;
+        background: #000000;
+        height: 300px;
+        border-radius: 0 10px 10px 0;
+        -webkit-border-radius: 0 10px 10px 0;
+        -moz-border-radius: 0 10px 10px 0;
+    }
+
+        body .card_right h1 {
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            text-align: left;
+            font-size: 20px;
+            margin: 30px 0 0 0;
+            padding: 0 0 0 40px;
+            letter-spacing: 1px;
+        }
+
+    body .card_right__details ul {
+        list-style-type: none;
+        padding: 0 0 0 40px;
+        margin: 10px 0 0 0;
+    }
+
+        body .card_right__details ul li {
+            display: inline;
+            color: #e3e3e3;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 14px;
+            padding: 0 20px 0 0;
+        }
+
+    body .card_right__review p {
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12px;
+        padding: 0 40px 0 40px;
+        letter-spacing: 1px;
+        margin: 10px 0 10px 0;
+        line-height: 20px;
+    }
+
+    body .card_right__review a {
+        text-decoration: none;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        padding: 0 0 0 40px;
+        color: #ffda00;
+        margin: 0;
+    }
+
+    body .card_right__button {
+        padding: 0 0 0 40px;
+        margin: 30px 0 0 0;
+    }
+</style>
+@if (Model.Results == null)
+{
+    <h3>Não foi possível encontrar resultados para sua busca.</h3>
+}
+else
+{
+    <div class="row no-gutter">
+        <div class="card-deck">
+
+            @foreach (var item in Model.Results)
+            {
+                <div class="col-xs-6 col-md-6">
+                    <div class='card'>
+                        <div class='card_left'>
+                            <img src="@Helper.GetUrl(item.PosterPath)">
+                        </div>
+                        <div class='card_right'>
+                            <h1>@item.Title.ToUpper()</h1>
+                            <div class='card_right__details'>
+                                <ul>
+                                    <li>@item.ReleaseDate.Date.ToString("dd MMMM / yy")</li>
+                                    <li><span class="glyphicon glyphicon-star"> </span> @item.VoteAverage</li>
+                                    @*<li>111 min</li>*@
+                                    @*<li>Action</li>*@
+                                </ul>
+                            </div>
+                            <div class='card_right__review'>
+                                <p>@item.Overview.Substring(0, item.Overview.Length > 140 ? 140 : item.Overview.Length)...</p>
+                                <a href='../Movies/Details/@item.Id' target='_blank'>Mais Informações</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+}
+<div class="container-fluid text-center">
+    @if (Model.Results != null)
+    {
+        <a asp-page="" asp-route-pageNumber="@Model.PrevPage" class="page-link">
+            <button class="page-item" @Html.DisabledIf(Model.PageNumber == 1)>Anterior</button>
+        </a>
+
+        <a asp-page="" asp-route-pageNumber="@Model.NextPage" class="page-link">
+            <button class="page-item" @Html.DisabledIf(Model.PageNumber == Model.TotalPages)>Próxima</button>
+        </a>
+    }
+</div>

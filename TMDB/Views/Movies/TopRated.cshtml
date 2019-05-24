@@ -1,0 +1,12 @@
+﻿@using TMDB.Extensions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model TMDB.IResponse<Movie>
+@{
+    ViewData["Title"] = "TMD Populares";
+}
+
+<h2>
+    Mais Bem Avaliados
+</h2>
+
+@await Html.PartialAsync("_showcase")

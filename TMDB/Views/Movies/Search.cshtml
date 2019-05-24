@@ -1,0 +1,15 @@
+﻿@using TMDB.Extensions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model TMDB.IResponse<Movie>
+@{
+    ViewData["Title"] = "TMD Pesquisa";
+}
+
+<h2>
+    Pesquisa por: @Model.Query
+</h2>
+<h3>
+    Titulos econtrados: @Model.TotalResults
+</h3>
+
+@await Html.PartialAsync("_showcase")

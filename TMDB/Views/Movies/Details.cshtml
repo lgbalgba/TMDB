@@ -1,0 +1,66 @@
+﻿@using TMDB.Extensions
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Movie
+
+<style>
+
+    .movie-card {
+        font: 14px/22px "Lato", Arial, sans-serif;
+        color: #A9A8A3;
+        padding: 40px 0;
+    }
+
+    .container {
+        margin: 0 auto;
+        width: 1030px;
+        height: auto;
+        background: #F0F0ED;
+        border-radius: 5px;
+        position: relative;
+    }
+
+    .cover {
+        position: absolute;
+        top: 70px;
+        left: 40px;
+        z-index: 2;
+        width:200px;
+    }
+
+    .details {
+        padding: 50px 0 0 280px;
+    }
+
+    .description {
+        
+        height: auto;
+        min-height: 250px;
+        font-size: 16px;
+        line-height: 26px;
+        color: #B1B0AC;
+    }
+}
+
+</style>
+
+@if (Model != null)
+{
+<div class="container-fluid">
+    <div class="movie-card" style="background-image:@Helper.GetUrl(Model.BackdropPath)">
+
+        <div class="container">
+            <img src="@Helper.GetUrl(Model.PosterPath)" alt="cover" class="cover" />
+           
+            <div class="details">
+                <h2>@Model.Title</h2>
+                <span class="glyphicon glyphicon-star"> </span> @Model.VoteAverage - @Model.ReleaseDate.Date.ToString("dd MMMM / yy")
+                <div class="description">
+                    <p>@Model.Overview</p>
+                    </div>
+                </div> 
+
+            </div>
+
+        </div>
+    </div> 
+}
